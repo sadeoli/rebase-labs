@@ -1,23 +1,16 @@
 require 'sinatra'
 require 'rack/handler/puma'
 require 'csv'
+require_relative './import_from_csv'
 
 get '/tests' do
-  rows = CSV.read("./data.csv", col_sep: ';')
-
-  columns = rows.shift
-
-  rows.map do |row|
-    row.each_with_object({}).with_index do |(cell, acc), idx|
-      column = columns[idx]
-      acc[column] = cell
-    end
-  end.to_json
+  ImportCSV.new.all.to_json
 end
 
-get '/hello' do
-  'Hello world!'
+get '/import' do
+  ImportCSV.new.all.to_json
 end
+
 
 Rack::Handler::Puma.run(
   Sinatra::Application,
