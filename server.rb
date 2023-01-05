@@ -3,11 +3,7 @@ require 'rack/handler/puma'
 require 'csv'
 require_relative './import_from_csv'
 
-get '/tests' do
-  ImportCSV.new.all.to_json
-end
-
-get '/import' do
+get '/api/tests' do
   ImportCSV.new.all.to_json
 end
 
